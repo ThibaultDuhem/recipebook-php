@@ -55,7 +55,7 @@ class RegistrationFormType extends AbstractType
         #        ],
         #        ##'years' => range(date('Y')-100, date('Y')-10),
         #        'label' => 'Date de naissance'
-        #    ])
+        #    ])j'ai fais la partie gestion utilisateurs là j'ai push,  tu peux t'inscrire, te co, te déco mais pas encore modifié ton profil, c'est trop chiant obligé de faire le front en parallèles 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
