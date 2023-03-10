@@ -3,9 +3,12 @@
 namespace App\Form;
 
 use App\Entity\User;
+use DateTimeImmutable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType ;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -48,14 +51,14 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Pseudo'
             ])
-        #    ->add('birth',BirthdayType::class, [
+            ->add('birth',DateType::class, [
 
-        #        'attr' => [
-        #            'class' => 'form-control'
-        #        ],
-        #        ##'years' => range(date('Y')-100, date('Y')-10),
-        #        'label' => 'Date de naissance'
-        #    ])j'ai fais la partie gestion utilisateurs là j'ai push,  tu peux t'inscrire, te co, te déco mais pas encore modifié ton profil, c'est trop chiant obligé de faire le front en parallèles 
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'years' => range(date('Y')-100, date('Y')-10),
+                'label' => 'Date de naissance'
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

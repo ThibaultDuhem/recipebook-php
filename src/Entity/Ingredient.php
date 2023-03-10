@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\SlugTrait;
 use App\Repository\IngredientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
 class Ingredient
 {
+    use CreatedAtTrait;
+    use SlugTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,12 +31,14 @@ class Ingredient
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'ingredient', targetEntity: RecipeIngredient::class)]
-    private Collection $recipeIngredients;
+    #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'ingredients')]
+    private Collection $recipes;
+
 
     public function __construct()
     {
-        $this->recipeIngredients = new ArrayCollection();
+        $this->created_at = new \DateTimeImmutable();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,32 +95,31 @@ class Ingredient
     }
 
     /**
-     * @return Collection<int, RecipeIngredient>
+     * @return Collection<int, Recipe>
      */
-    public function getRecipeIngredients(): Collection
+    public function getRecipes(): Collection
     {
-        return $this->recipeIngredients;
+        return $this->recipes;
     }
 
-    public function addRecipeIngredient(RecipeIngredient $recipeIngredient): self
+    public function addRecipe(Recipe $recipe): self
     {
-        if (!$this->recipeIngredients->contains($recipeIngredient)) {
-            $this->recipeIngredients->add($recipeIngredient);
-            $recipeIngredient->setIngredient($this);
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->addIngredient($this);
         }
 
         return $this;
     }
 
-    public function removeRecipeIngredient(RecipeIngredient $recipeIngredient): self
+    public function removeRecipe(Recipe $recipe): self
     {
-        if ($this->recipeIngredients->removeElement($recipeIngredient)) {
-            // set the owning side to null (unless already changed)
-            if ($recipeIngredient->getIngredient() === $this) {
-                $recipeIngredient->setIngredient(null);
-            }
+        if ($this->recipes->removeElement($recipe)) {
+            $recipe->removeIngredient($this);
         }
 
         return $this;
     }
+
+
 }
