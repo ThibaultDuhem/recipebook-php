@@ -39,9 +39,9 @@ class RecipeRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Recipe[] Returns an array of Recipe objects
-//     */
+    /**
+     * // @return Recipe[] Returns an array of Recipe objects
+     */
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('r')
@@ -53,7 +53,6 @@ class RecipeRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-
 //    public function findOneBySomeField($value): ?Recipe
 //    {
 //        return $this->createQueryBuilder('r')
